@@ -1,0 +1,171 @@
+﻿@page
+@inject IStringLocalizer<IndexModel> localizer
+@model ContosoPizza.Pages.OrdersModel
+@using Microsoft.AspNetCore.Mvc.Razor;
+@using ContosoPizza.Models;
+@{
+    ViewData["Title"] = localizer["orders"];
+}
+
+@{
+    Func<dynamic?, HelperResult> Arrows(string dir = "") => dir switch
+    {
+        "down" => @<svg viewBox="0 0 24 24" focusable="false" style="width:10px"><path fill="currentColor" d="M12.8,5.4c-0.377-0.504-1.223-0.504-1.6,0l-9,12c-0.228,0.303-0.264,0.708-0.095,1.047 C2.275,18.786,2.621,19,3,19h18c0.379,0,0.725-0.214,0.895-0.553c0.169-0.339,0.133-0.744-0.095-1.047L12.8,5.4z"></path></svg>,
+        "up" => @<svg viewBox="0 0 24 24" focusable="false" style="width:10px"><path fill="currentColor" d="M21,5H3C2.621,5,2.275,5.214,2.105,5.553C1.937,5.892,1.973,6.297,2.2,6.6l9,12 c0.188,0.252,0.485,0.4,0.8,0.4s0.611-0.148,0.8-0.4l9-12c0.228-0.303,0.264-0.708,0.095-1.047C21.725,5.214,21.379,5,21,5z"></path></svg>,
+        _ => @<svg viewBox="-1 -1 9 11" focusable="false" style="width:10px"><path fill="currentColor" d="M 3.5 0L 3.98809 -0.569442L 3.5 -0.987808L 3.01191 -0.569442L 3.5 0ZM 3.5 9L 3.01191 9.56944L 3.5 9.98781L 3.98809 9.56944L 3.5 9ZM 0.488094 3.56944L 3.98809 0.569442L 3.01191 -0.569442L -0.488094 2.43056L 0.488094 3.56944ZM 3.01191 0.569442L 6.51191 3.56944L 7.48809 2.43056L 3.98809 -0.569442L 3.01191 0.569442ZM -0.488094 6.56944L 3.01191 9.56944L 3.98809 8.43056L 0.488094 5.43056L -0.488094 6.56944ZM 3.98809 9.56944L 7.48809 6.56944L 6.51191 5.43056L 3.01191 8.43056L 3.98809 9.56944Z"></path></svg>
+    };
+}
+
+<div>
+<h1><a class="text-dark px-0 nav-link d-inline" asp-area="" asp-page="">@localizer["orders"]</a></h1>
+
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.CustomerNameSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.CustomerNameSortRoute.Dir)(null)
+                @localizer["customer"]
+            </a></th>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.PizzaNameSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.PizzaNameSortRoute.Dir)(null)
+                @localizer["pizza"]
+            </a></th>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.SodaNameSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.SodaNameSortRoute.Dir)(null)
+                @localizer["soda"]
+            </a></th>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.StatusSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.StatusSortRoute.Dir)(null)
+                @localizer["order-status"]
+            </a></th>
+            <th scope="col">
+                @localizer["update-order"]
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var order in Model.OrderList)
+        {
+            <tr>
+                <td>@order.CustomerName</td>
+                <td>
+                    @if (order.Pizza is not null)
+                    {
+                        <p>@(order.Pizza.Name)</p>
+                    }
+                    else
+                    {
+                        <p>@localizer["no-pizza"]</p>
+                    }
+                </td>
+                <td>
+                    @if (order.Soda is not null)
+                    {
+                        <p>@(order.Soda.Name)</p>
+                    }
+                    else
+                    {
+                        <p>@localizer["no-soda"]</p>
+                    }
+                </td>
+                <td>@localizer[order.Status.ToString().ToLower()]</td>
+                <td>
+                    <div class="container px-0">
+                        <div class="row justify-content-md-center px-0">
+                            <div class="col-sm" style="max-width:fit-content">
+                                <form method="post" asp-page-handler="Revert" asp-route-id="@order.Id">
+                                    @if (order.Status == OrderStatus.New)
+                                    {
+                                        <button disabled class="btn btn-outline-primary">❮</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-primary">❮</button>
+                                    }
+                                </form>
+                            </div>
+                            <div class="col-sm" style="max-width:fit-content;padding-left:0px;padding-right:30px">
+                                <form method="post" asp-page-handler="Advance" asp-route-id="@order.Id">
+                                    @if (order.Status == OrderStatus.Completed)
+                                    {
+                                        <button disabled class="btn btn-outline-primary">❯</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-primary">❯</button>
+                                    }
+                                </form>
+                            </div>
+                            <div class="col-sm px-0">
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@order.Id"
+                                    onsubmit="return confirm('@localizer["delete-order-confirmation"]')">
+                                    <button class="btn btn-danger">
+                                        @localizer["delete"]
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 px-0">
+            <h4>
+                @localizer["new-order"]
+            </h4>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group my-3">
+                    <label asp-for="NewOrder.CustomerName" class="control-label">
+                        @localizer["customer"]
+                    </label>
+                    <input asp-for="NewOrder.CustomerName" class="form-control" />
+                    <span asp-validation-for="NewOrder.CustomerName" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3">
+                    <label asp-for="NewOrderPizzaId" class="control-label">
+                        @localizer["pizza"]
+                    </label>
+                    <select asp-for="NewOrderPizzaId" class="form-control" id="OrderPizzaId">
+                        <option value="" disabled selected hidden>-- @localizer["select-pizza"] --</option>
+                        <option value="-1">@localizer["no-pizza"]</option>
+                        @foreach (Pizza pizza in Model.PizzaList)
+                        {
+                            <option value=@(pizza.Id)>@(pizza.Name)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="NewOrderPizzaId" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3">
+                    <label asp-for="NewOrderSodaId" class="control-label">
+                        @localizer["soda"]
+                    </label>
+                    <select asp-for="NewOrderSodaId" class="form-control" id="OrderSodaId">
+                        <option value="" disabled selected hidden>-- @localizer["select-soda"] --</option>
+                        <option value="-1">@localizer["no-soda"]</option>
+                        @foreach (Soda soda in Model.SodaList)
+                        {
+                            <option value=@(soda.Id)>@(soda.Name)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="NewOrderSodaId" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="submit" value="@localizer["create"]" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+        <div class="col-sm"></div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

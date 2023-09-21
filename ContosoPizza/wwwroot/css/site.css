@@ -1,0 +1,55 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.sort-by-asc {
+    left: 3px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: solid 5px transparent;
+    margin: 4px 4px 0 3px;
+    background: transparent;
+    border-bottom: solid 4px #F80;
+    border-top-width: 0;
+}
+
+.sort-by-desc {
+    left: 3px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: solid 5px transparent;
+    margin: 4px 4px 0 3px;
+    background: transparent;
+    border-top: solid 4px #F80;
+    box-shadow: 0 0 0px 0 rgba(0, 0, 0, 0);
+    border-bottom-width: 0;
+}
+
+nav {
+    transition: box-shadow 0.1s ease;
+}
+
+nav[data-scroll="1"] {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}

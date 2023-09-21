@@ -1,0 +1,97 @@
+﻿@page
+@inject IStringLocalizer<IndexModel> localizer
+@model ContosoPizza.Pages.SaucesModel
+@using Microsoft.AspNetCore.Mvc.Razor;
+@{
+    ViewData["Title"] = localizer["sauces"];
+}
+
+@{
+    Func<dynamic?, HelperResult> Arrows(string dir = "") => dir switch
+    {
+        "down" =>@<svg viewBox="0 0 24 24" focusable="false" style="width:10px"><path fill="currentColor" d="M12.8,5.4c-0.377-0.504-1.223-0.504-1.6,0l-9,12c-0.228,0.303-0.264,0.708-0.095,1.047 C2.275,18.786,2.621,19,3,19h18c0.379,0,0.725-0.214,0.895-0.553c0.169-0.339,0.133-0.744-0.095-1.047L12.8,5.4z"></path></svg>      ,
+        "up" =>@<svg viewBox="0 0 24 24" focusable="false" style="width:10px"><path fill="currentColor" d="M21,5H3C2.621,5,2.275,5.214,2.105,5.553C1.937,5.892,1.973,6.297,2.2,6.6l9,12 c0.188,0.252,0.485,0.4,0.8,0.4s0.611-0.148,0.8-0.4l9-12c0.228-0.303,0.264-0.708,0.095-1.047C21.725,5.214,21.379,5,21,5z"></path></svg>   ,
+        _ =>@<svg viewBox="-1 -1 9 11" focusable="false" style="width:10px"><path fill="currentColor" d="M 3.5 0L 3.98809 -0.569442L 3.5 -0.987808L 3.01191 -0.569442L 3.5 0ZM 3.5 9L 3.01191 9.56944L 3.5 9.98781L 3.98809 9.56944L 3.5 9ZM 0.488094 3.56944L 3.98809 0.569442L 3.01191 -0.569442L -0.488094 2.43056L 0.488094 3.56944ZM 3.01191 0.569442L 6.51191 3.56944L 7.48809 2.43056L 3.98809 -0.569442L 3.01191 0.569442ZM -0.488094 6.56944L 3.01191 9.56944L 3.98809 8.43056L 0.488094 5.43056L -0.488094 6.56944ZM 3.98809 9.56944L 7.48809 6.56944L 6.51191 5.43056L 3.01191 8.43056L 3.98809 9.56944Z"></path></svg>
+    };
+}
+
+<div>
+<h1><a class="text-dark px-0 nav-link d-inline" asp-area="" asp-page="">@localizer["sauces"]</a></h1>
+
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.SauceNameSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.SauceNameSortRoute.Dir)(null)
+                @localizer["name"]
+            </a></th>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.SauceVeganSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.SauceVeganSortRoute.Dir)(null)
+                @localizer["vegan"]
+            </a></th>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.SauceCaloriesSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.SauceCaloriesSortRoute.Dir)(null)
+                @localizer["calories"]
+            </a></th>
+            <th scope="col">@localizer["actions"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sauce in Model.SauceList)
+        {
+            <tr>
+                <td>@sauce.Name</td>
+                <td>@(sauce.IsVegan ? "✔️" : string.Empty)</td>
+                <td>@sauce.Calories</td>
+                <td>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@sauce.Id"
+                        onsubmit="return confirm('@localizer["delete-sauce-confirmation"]')">
+                        <button class="btn btn-danger">@localizer["delete"]</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 px-0">
+            <h4>
+                @localizer["new-sauce"]
+            </h4>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group my-3">
+                    <label asp-for="NewSauce.Name" class="control-label">
+                        @localizer["name"]
+                    </label>
+                    <input asp-for="NewSauce.Name" class="form-control" />
+                    <span asp-validation-for="NewSauce.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check my-3">
+                    <label class="form-check-label user-select-none">
+                        <input class="form-check-input" asp-for="NewSauce.IsVegan" />@localizer["vegan"]
+                    </label>
+                </div>
+                <div class="form-group my-3">
+                    <label asp-for="NewSauce.Calories" class="control-label">
+                        @localizer["calories"]
+                    </label>
+                    <input asp-for="NewSauce.Calories" step="0.01" type="number"  class="form-control" />
+                    <span asp-validation-for="NewSauce.Calories" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="submit" value="@localizer["create"]" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+        <div class="col-sm"></div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

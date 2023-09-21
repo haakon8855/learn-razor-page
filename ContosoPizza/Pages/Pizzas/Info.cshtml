@@ -1,0 +1,152 @@
+﻿@page "{id?}"
+@inject IStringLocalizer<IndexModel> localizer
+@model ContosoPizza.Pages.PizzaInfoModel
+@using Microsoft.AspNetCore.Mvc.Razor;
+@using ContosoPizza.Models;
+
+@{
+    Func<dynamic?, HelperResult> Arrows(string dir = "") => dir switch
+    {
+        "down" => @<svg viewBox="0 0 24 24" focusable="false" style="width:10px"><path fill="currentColor" d="M12.8,5.4c-0.377-0.504-1.223-0.504-1.6,0l-9,12c-0.228,0.303-0.264,0.708-0.095,1.047 C2.275,18.786,2.621,19,3,19h18c0.379,0,0.725-0.214,0.895-0.553c0.169-0.339,0.133-0.744-0.095-1.047L12.8,5.4z"></path></svg>,
+        "up" => @<svg viewBox="0 0 24 24" focusable="false" style="width:10px"><path fill="currentColor" d="M21,5H3C2.621,5,2.275,5.214,2.105,5.553C1.937,5.892,1.973,6.297,2.2,6.6l9,12 c0.188,0.252,0.485,0.4,0.8,0.4s0.611-0.148,0.8-0.4l9-12c0.228-0.303,0.264-0.708,0.095-1.047C21.725,5.214,21.379,5,21,5z"></path></svg>,
+        _ => @<svg viewBox="-1 -1 9 11" focusable="false" style="width:10px"><path fill="currentColor" d="M 3.5 0L 3.98809 -0.569442L 3.5 -0.987808L 3.01191 -0.569442L 3.5 0ZM 3.5 9L 3.01191 9.56944L 3.5 9.98781L 3.98809 9.56944L 3.5 9ZM 0.488094 3.56944L 3.98809 0.569442L 3.01191 -0.569442L -0.488094 2.43056L 0.488094 3.56944ZM 3.01191 0.569442L 6.51191 3.56944L 7.48809 2.43056L 3.98809 -0.569442L 3.01191 0.569442ZM -0.488094 6.56944L 3.01191 9.56944L 3.98809 8.43056L 0.488094 5.43056L -0.488094 6.56944ZM 3.98809 9.56944L 7.48809 6.56944L 6.51191 5.43056L 3.01191 8.43056L 3.98809 9.56944Z"></path></svg>
+    };
+}
+
+@if(Model.Pizza == null)
+{
+    ViewData["Title"] = "";
+    <div>
+        <h1>404 - @localizer["pizza-does-not-exist"]</h1>
+    </div>
+}
+else
+{
+    ViewData["Title"] = Model.Pizza.Name;
+    <div>
+        <h1><a class="text-dark px-0 nav-link d-inline" asp-area="" asp-page="">@Model.Pizza.Name</a></h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <table class="table mt-5">
+                        <thead>
+                            <tr>
+                                <th>@localizer["info"]</th>
+                                <th>@localizer["value"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@localizer["price"]</td>
+                                <td>@($"{Model.Pizza.Price:C}")</td>
+                            </tr>
+                            <tr>
+                                <td>@localizer["size"]</td>
+                                <td>@localizer[Model.Pizza.Size.ToString().ToLower()]</td>
+                            </tr>
+                            <tr>
+                                <td>@localizer["sauce"]</td>
+                                @if (Model.Pizza.Sauce is not null)
+                                {
+                                    <td>@Model.Pizza.Sauce.Name</td>
+                                }
+                                else
+                                {
+                                    <td>@localizer["no-sauce"]</td>
+                                }
+                            </tr>
+                            <tr>
+                                <td>@localizer["gluten-free"]</td>
+                                <td>@(Model.Pizza.IsGlutenFree ? "✔️" : "❌")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm">
+                    <table class="table mt-5">
+                        <thead>
+                            <tr>
+                                <th scope="col"><a asp-route-sortBy="@Model.Sorter.ToppingNameSortRoute.Sort" style="text-decoration:none; color:black">
+                                    @Arrows(Model.Sorter.ToppingNameSortRoute.Dir)(null)
+                                    @localizer["topping"]
+                                </a></th>
+                                <th scope="col"><a asp-route-sortBy="@Model.Sorter.ToppingCaloriesSortRoute.Sort" style="text-decoration:none; color:black">
+                                    @Arrows(Model.Sorter.ToppingCaloriesSortRoute.Dir)(null)
+                                    @localizer["calories"]
+                                </a></th>
+                                <th>@localizer["actions"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Pizza.Toppings != null && Model.Pizza.Toppings.Count > 0)
+                            {
+                                @foreach (var topping in Model.Pizza.Toppings)
+                                {
+                                <tr>
+                                    <td>@topping.Name</td>
+                                    <td>@topping.Calories</td>
+                                    <td>
+                                        <div class="container px-0">
+                                            <div class="row justify-content-md-center px-0">
+                                                <div class="col-sm px-3">
+                                                    <form method="post" asp-page-handler="Delete" asp-route-toppingId="@topping.Id"
+                                                        onsubmit="return confirm('@localizer["remove-topping-from-pizza-confirmation"]')">
+                                                        <button class="btn btn-danger">@localizer["remove"]</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            }
+                            <tr><td></td></tr>
+                            <tr class="border-top">
+                                <td><b>@localizer["sum"]</b> (@localizer["calories"])</td>
+                                <td><b>@Model.TotalCalories</b></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group my-3">
+                            <label asp-for="ToppingToAddId" class="control-label mb-2 mt-4 fw-bold fs-5">@localizer["add-topping"]</label>
+                            <div class="container px-0">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <select asp-for="ToppingToAddId" class="form-control" id="PizzaTopping">
+                                            <option value="-1" disabled selected hidden>-- @localizer["select-topping"] --</option>
+                                            @foreach (var topping in Model.ToppingList)
+                                            {
+                                                <option value=@(topping.Id)>@(topping.Name)</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <input type="submit" value="Add" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                            <span asp-validation-for="ToppingToAddId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-3">
+                        </div>
+                    </form>
+                    @section Scripts {
+                        <partial name="_ValidationScriptsPartial" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

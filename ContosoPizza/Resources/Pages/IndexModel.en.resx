@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="add-topping" xml:space="preserve">
+    <value>Add topping</value>
+  </data>
+  <data name="all-rights-reserved" xml:space="preserve">
+    <value>All rights reserved</value>
+  </data>
+  <data name="best-pizza-in-town-since" xml:space="preserve">
+    <value>The best pizza in town since</value>
+  </data>
+  <data name="calories" xml:space="preserve">
+    <value>Energy (kcal)</value>
+  </data>
+  <data name="calories-per-vol" xml:space="preserve">
+    <value>kcal / 100ml</value>
+  </data>
+  <data name="completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="delete-order-confirmation" xml:space="preserve">
+    <value>Are you sure you want to permanently delete this Order?\nThis action cannot be undone!</value>
+  </data>
+  <data name="delete-pizza-confirmation" xml:space="preserve">
+    <value>Are you sure you want to permanently delete this Pizza?\nThis action cannot be undone!</value>
+  </data>
+  <data name="delete-sauce-confirmation" xml:space="preserve">
+    <value>Are you sure you want to permanently delete this Sauce?\nThis action cannot be undone!</value>
+  </data>
+  <data name="delete-soda-confirmation" xml:space="preserve">
+    <value>Are you sure you want to permanently delete this Soda?\nThis action cannot be undone!</value>
+  </data>
+  <data name="delete-topping-confirmation" xml:space="preserve">
+    <value>Are you sure you want to permanently delete this Topping?\nThis action cannot be undone!</value>
+  </data>
+  <data name="delivering" xml:space="preserve">
+    <value>Delivering</value>
+  </data>
+  <data name="gluten-free" xml:space="preserve">
+    <value>Gluten free</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="large" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="new" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="new-order" xml:space="preserve">
+    <value>New order</value>
+  </data>
+  <data name="new-pizza" xml:space="preserve">
+    <value>New pizza</value>
+  </data>
+  <data name="new-sauce" xml:space="preserve">
+    <value>New sauce</value>
+  </data>
+  <data name="new-soda" xml:space="preserve">
+    <value>New soda</value>
+  </data>
+  <data name="new-topping" xml:space="preserve">
+    <value>New topping</value>
+  </data>
+  <data name="no-pizza" xml:space="preserve">
+    <value>No pizza</value>
+  </data>
+  <data name="no-sauce" xml:space="preserve">
+    <value>No sauce</value>
+  </data>
+  <data name="no-soda" xml:space="preserve">
+    <value>No soda</value>
+  </data>
+  <data name="order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="order-status" xml:space="preserve">
+    <value>Order status</value>
+  </data>
+  <data name="orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="pizza" xml:space="preserve">
+    <value>Pizza</value>
+  </data>
+  <data name="pizza-does-not-exist" xml:space="preserve">
+    <value>The requested pizza does not exist</value>
+  </data>
+  <data name="pizzas" xml:space="preserve">
+    <value>Pizzas</value>
+  </data>
+  <data name="preparing" xml:space="preserve">
+    <value>Preparing</value>
+  </data>
+  <data name="price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="remove-topping-from-pizza-confirmation" xml:space="preserve">
+    <value>Are you sure you want to remove this Topping from this Pizza?\nThis action cannot be undone!</value>
+  </data>
+  <data name="sauce" xml:space="preserve">
+    <value>Sauce</value>
+  </data>
+  <data name="sauces" xml:space="preserve">
+    <value>Sauces</value>
+  </data>
+  <data name="select-pizza" xml:space="preserve">
+    <value>Select pizza</value>
+  </data>
+  <data name="select-sauce" xml:space="preserve">
+    <value>Select sauce</value>
+  </data>
+  <data name="select-size" xml:space="preserve">
+    <value>Select size</value>
+  </data>
+  <data name="select-soda" xml:space="preserve">
+    <value>Select soda</value>
+  </data>
+  <data name="select-topping" xml:space="preserve">
+    <value>Select topping</value>
+  </data>
+  <data name="size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="small" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="soda" xml:space="preserve">
+    <value>Soda</value>
+  </data>
+  <data name="sodas" xml:space="preserve">
+    <value>Sodas</value>
+  </data>
+  <data name="sugar-free" xml:space="preserve">
+    <value>Sugar free</value>
+  </data>
+  <data name="sum" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="title" xml:space="preserve">
+    <value>Håkon's Sjappepizza</value>
+  </data>
+  <data name="topping" xml:space="preserve">
+    <value>Topping</value>
+  </data>
+  <data name="toppings" xml:space="preserve">
+    <value>Toppings</value>
+  </data>
+  <data name="update-order" xml:space="preserve">
+    <value>Update order</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="vegan" xml:space="preserve">
+    <value>Vegan</value>
+  </data>
+</root>

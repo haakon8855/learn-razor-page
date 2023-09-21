@@ -1,0 +1,25 @@
+﻿@page
+
+@inject IStringLocalizer<IndexModel> localizer
+@* @{
+    var requestCultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+    var requestCulture = requestCultureFeature.RequestCulture;
+} *@
+
+@model IndexModel
+@{
+    ViewData["Title"] = @localizer["title"];
+    var businessStart = new DateTime(1998, 10, 1);
+    string formattedDate = businessStart.ToLongDateString()
+        .Replace(DateTimeFormatInfo.CurrentInfo.GetDayName(businessStart.DayOfWeek), "")
+        .TrimStart(", ".ToCharArray());
+}
+
+<div class="text-center">
+    <h1 class="display-4">
+        @localizer["title"]
+    </h1>
+    <p>
+        @localizer["best-pizza-in-town-since"] @formattedDate!
+    </p>
+</div>

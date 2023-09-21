@@ -1,0 +1,145 @@
+﻿@page
+@inject IStringLocalizer<IndexModel> localizer
+@model ContosoPizza.Pages.PizzasModel
+@using ContosoPizza.Models;
+@using Microsoft.AspNetCore.Mvc.Razor;
+@{
+    ViewData["Title"] = localizer["pizzas"];
+}
+
+@{
+    Func<dynamic?, HelperResult> Arrows(string dir = "") => dir switch
+    {
+        "down" => @<svg viewBox="0 0 24 24" focusable="false" style="width:10px"><path fill="currentColor" d="M12.8,5.4c-0.377-0.504-1.223-0.504-1.6,0l-9,12c-0.228,0.303-0.264,0.708-0.095,1.047 C2.275,18.786,2.621,19,3,19h18c0.379,0,0.725-0.214,0.895-0.553c0.169-0.339,0.133-0.744-0.095-1.047L12.8,5.4z"></path></svg>,
+        "up" => @<svg viewBox="0 0 24 24" focusable="false" style="width:10px"><path fill="currentColor" d="M21,5H3C2.621,5,2.275,5.214,2.105,5.553C1.937,5.892,1.973,6.297,2.2,6.6l9,12 c0.188,0.252,0.485,0.4,0.8,0.4s0.611-0.148,0.8-0.4l9-12c0.228-0.303,0.264-0.708,0.095-1.047C21.725,5.214,21.379,5,21,5z"></path></svg>,
+        _ => @<svg viewBox="-1 -1 9 11" focusable="false" style="width:10px"><path fill="currentColor" d="M 3.5 0L 3.98809 -0.569442L 3.5 -0.987808L 3.01191 -0.569442L 3.5 0ZM 3.5 9L 3.01191 9.56944L 3.5 9.98781L 3.98809 9.56944L 3.5 9ZM 0.488094 3.56944L 3.98809 0.569442L 3.01191 -0.569442L -0.488094 2.43056L 0.488094 3.56944ZM 3.01191 0.569442L 6.51191 3.56944L 7.48809 2.43056L 3.98809 -0.569442L 3.01191 0.569442ZM -0.488094 6.56944L 3.01191 9.56944L 3.98809 8.43056L 0.488094 5.43056L -0.488094 6.56944ZM 3.98809 9.56944L 7.48809 6.56944L 6.51191 5.43056L 3.01191 8.43056L 3.98809 9.56944Z"></path></svg>
+    };
+}
+
+<div>
+<h1><a class="text-dark px-0 nav-link d-inline" asp-area="" asp-page="">@localizer["pizzas"]</a></h1>
+
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.PizzaNameSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.PizzaNameSortRoute.Dir)(null)
+                @localizer["pizzas"] 
+            </a></th>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.PizzaPriceSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.PizzaPriceSortRoute.Dir)(null)
+                @localizer["price"]
+            </a></th>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.PizzaSizeSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.PizzaSizeSortRoute.Dir)(null)
+                @localizer["size"]
+            </a></th>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.PizzaSauceSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.PizzaSauceSortRoute.Dir)(null)
+                @localizer["sauce"]
+            </a></th>
+            <th scope="col"><a asp-route-sortBy="@Model.Sorter.PizzaGlutenFreeSortRoute.Sort" style="text-decoration:none; color:black">
+                @Arrows(Model.Sorter.PizzaGlutenFreeSortRoute.Dir)(null)
+                @localizer["gluten-free"]
+            </a></th>
+            <th scope="col">@localizer["actions"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pizza in Model.PizzaList)
+        {
+            <tr>
+                <td><a href="Pizzas/Info/@pizza.Id" class="link-dark" style="text-decoration:none">@pizza.Name</a></td>
+                <td>@($"{pizza.Price} NOK")</td>
+                <td>@localizer[pizza.Size.ToString().ToLower()]</td>
+                <td>
+                    @if (pizza.Sauce is not null)
+                    {
+                        <p>@(pizza.Sauce.Name)</p>
+                    }
+                    else
+                    {
+                        <p>@localizer["no-sauce"]</p>
+                    }
+                </td>
+                <td>@(pizza.IsGlutenFree ? "✔️" : "❌")</td>
+                <td>
+                    <div class="container px-0">
+                        <div class="row justify-content-md-center px-0">
+                            <div class="col-sm" style="max-width:fit-content">
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@pizza.Id"
+                                    onsubmit="return confirm('@localizer["delete-pizza-confirmation"]')">
+                                    <button class="btn btn-danger">@localizer["delete"]</button>
+                                </form>
+                            </div>
+                            <div class="col-sm px-0">
+                                <a href="Pizzas/Info/@pizza.Id" class="btn btn-primary">@localizer["info"]</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 px-0">
+            <h4>
+                @localizer["new-pizza"]
+            </h4>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group my-3">
+                    <label asp-for="NewPizza.Name" class="control-label">@localizer["name"]</label>
+                    <input asp-for="NewPizza.Name" class="form-control" />
+                    <span asp-validation-for="NewPizza.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3">
+                    <label asp-for="NewPizza.Size" class="control-label">@localizer["size"]</label>
+                    <select asp-for="NewPizza.Size" class="form-control" id="PizzaSize">
+                        <option value="" disabled selected hidden>-- @localizer["select-size"] --</option>
+                        @foreach (int i in Enum.GetValues(typeof(PizzaSize)))
+                        {
+                            <option value=@((PizzaSize)i)>@(localizer[((PizzaSize)i).ToString().ToLower()])</option>
+                        }
+                    </select>
+                    <span asp-validation-for="NewPizza.Size" class="text-danger"></span>
+                </div>
+                <div class="form-group my-3">
+                    <label asp-for="NewPizzaSauceId" class="control-label">@localizer["sauce"]</label>
+                    <select asp-for="NewPizzaSauceId" class="form-control" id="PizzaSauce">
+                        <option value="" disabled selected hidden>-- @localizer["select-sauce"] --</option>
+                        <option value="-1">@localizer["no-sauce"]</option>
+                        @foreach (var sauce in Model.SauceList)
+                        {
+                            <option value=@(sauce.Id)>@(sauce.Name)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="NewPizzaSauceId" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check my-3">
+                    <label class="form-check-label user-select-none">
+                        <input class="form-check-input" asp-for="NewPizza.IsGlutenFree" />@localizer["gluten-free"]
+                    </label>
+                </div>
+                <div class="form-group my-3">
+                    <label asp-for="NewPizza.Price" class="control-label">@localizer["price"]</label>
+                    <input asp-for="NewPizza.Price" step="0.01" type="number"  class="form-control" />
+                    <span asp-validation-for="NewPizza.Price" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="submit" value="@localizer["create"]" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+        <div class="col-sm"></div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
