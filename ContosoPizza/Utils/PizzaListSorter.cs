@@ -1,4 +1,5 @@
 using ContosoPizza.Models;
+using ContosoPizza.Models.ValueObjects;
 
 namespace ContosoPizza.Utils
 {
@@ -73,9 +74,9 @@ namespace ContosoPizza.Utils
                 case SortCriteria.SizeDescending:
                     return pizzaList.OrderByDescending(p => p.Size).ToList();
                 case SortCriteria.SauceAscending:
-                    return pizzaList.OrderBy(p => p.Sauce != null ? p.Sauce.Name : "-").ToList();
+                    return pizzaList.OrderBy(p => p.Sauce != null ? p.Sauce.Name : new ProductName("___")).ToList();
                 case SortCriteria.SauceDescending:
-                    return pizzaList.OrderByDescending(p => p.Sauce != null ? p.Sauce.Name : "-").ToList();
+                    return pizzaList.OrderByDescending(p => p.Sauce != null ? p.Sauce.Name : new ProductName("___")).ToList();
                 case SortCriteria.GlutenFreeAscending:
                     return pizzaList.OrderBy(p => p.IsGlutenFree).ToList();
                 case SortCriteria.GlutenFreeDescending:

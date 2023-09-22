@@ -21,16 +21,17 @@ namespace ContosoPizza.Pages
 
         public void OnGet(int sortBy)
         {
-            SodaList = _service.GetSodas();
-
-            Sorter = new SodaListSorter((SodaListSorter.SortCriteria)sortBy);
-            SodaList = Sorter.Sort(SodaList);
+            Initialize(sortBy);
         }
 
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
+                SodaList = _service.GetSodas();
+                Sorter = new SodaListSorter(0);
+                SodaList = Sorter.Sort(SodaList);
+
                 return Page();
             }
 
@@ -43,6 +44,13 @@ namespace ContosoPizza.Pages
         {
             _service.DeleteSoda(id);
             return RedirectToAction("Get");
+        }
+
+        public void Initialize(int sortBy = 0)
+        {
+            SodaList = _service.GetSodas();
+            Sorter = new SodaListSorter((SodaListSorter.SortCriteria)sortBy);
+            SodaList = Sorter.Sort(SodaList);
         }
     }
 }

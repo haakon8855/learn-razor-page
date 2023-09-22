@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ContosoPizza.ModelBinders;
+using ContosoPizza.Models.ValueObjects;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace ContosoPizza.Models
 {
@@ -7,7 +10,8 @@ namespace ContosoPizza.Models
         public int Id { get; set; }
 
         [Required]
-        public string? Name { get; set; }
+        [ModelBinder(BinderType = typeof(ProductNameModelBinder))]
+        public ProductName? Name { get; set; }
         public PizzaSize Size { get; set; }
         public Sauce? Sauce { get; set; }
         public ICollection<Topping>? Toppings { get; set; }

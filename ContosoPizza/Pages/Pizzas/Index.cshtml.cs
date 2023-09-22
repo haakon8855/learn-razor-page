@@ -25,17 +25,14 @@ namespace ContosoPizza.Pages
 
         public void OnGet(int sortBy)
         {
-            PizzaList = _pizzaService.GetPizzas();
-            SauceList = _sauceService.GetSauces().OrderBy(s => s.Name).ToList();
-
-            Sorter = new PizzaListSorter((PizzaListSorter.SortCriteria)sortBy);
-            PizzaList = Sorter.Sort(PizzaList);
+            Initialize(sortBy);
         }
 
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
+                Initialize();
                 return Page();
             }
 
@@ -54,5 +51,13 @@ namespace ContosoPizza.Pages
             return RedirectToAction("Get");
         }
 
+        public void Initialize(int sortBy = 0)
+        {
+            PizzaList = _pizzaService.GetPizzas();
+            SauceList = _sauceService.GetSauces().OrderBy(s => s.Name).ToList();
+
+            Sorter = new PizzaListSorter((PizzaListSorter.SortCriteria)sortBy);
+            PizzaList = Sorter.Sort(PizzaList);
+        }
     }
 }

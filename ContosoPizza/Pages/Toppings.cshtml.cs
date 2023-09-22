@@ -21,16 +21,15 @@ namespace ContosoPizza.Pages
 
         public void OnGet(int sortBy)
         {
-            ToppingList = _service.GetToppings();
-
-            Sorter = new ToppingListSorter((ToppingListSorter.SortCriteria)sortBy);
-            ToppingList = Sorter.Sort(ToppingList);
+            Initialize(sortBy);
         }
 
         public IActionResult OnPost()
         {
+
             if (!ModelState.IsValid)
             {
+                Initialize();
                 return Page();
             }
 
@@ -43,6 +42,13 @@ namespace ContosoPizza.Pages
         {
             _service.DeleteTopping(id);
             return RedirectToAction("Get");
+        }
+
+        public void Initialize(int sortBy = 0)
+        {
+            ToppingList = _service.GetToppings();
+            Sorter = new ToppingListSorter((ToppingListSorter.SortCriteria)sortBy);
+            ToppingList = Sorter.Sort(ToppingList);
         }
     }
 }

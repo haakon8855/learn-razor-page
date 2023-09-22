@@ -1,4 +1,5 @@
 ﻿using ContosoPizza.Models;
+using ContosoPizza.Models.ValueObjects;
 
 namespace ContosoPizza.Utils
 {
@@ -57,13 +58,13 @@ namespace ContosoPizza.Utils
                 case SortCriteria.CustomerNameDescending:
                     return orderList.OrderByDescending(o => o.CustomerName).ToList();
                 case SortCriteria.PizzaNameAscending:
-                    return orderList.OrderBy(o => o.Pizza != null ? o.Pizza.Name : "").ToList();
+                    return orderList.OrderBy(o => o.Pizza != null ? o.Pizza.Name : new ProductName("___")).ToList();
                 case SortCriteria.PizzaNameDescending:
-                    return orderList.OrderByDescending(o => o.Pizza != null ? o.Pizza.Name : "").ToList();
+                    return orderList.OrderByDescending(o => o.Pizza != null ? o.Pizza.Name : new ProductName("___")).ToList();
                 case SortCriteria.SodaNameAscending:
-                    return orderList.OrderBy(o => o.Soda != null ? o.Soda.Name : "").ToList();
+                    return orderList.OrderBy(o => o.Soda != null ? o.Soda.Name : new ProductName("___")).ToList();
                 case SortCriteria.SodaNameDescending:
-                    return orderList.OrderByDescending(o => o.Soda != null ? o.Soda.Name : "").ToList();
+                    return orderList.OrderByDescending(o => o.Soda != null ? o.Soda.Name : new ProductName("___")).ToList();
                 case SortCriteria.StatusAscending:
                     return orderList.OrderBy(o => o.Status).ToList();
                 case SortCriteria.StatusDescending:
