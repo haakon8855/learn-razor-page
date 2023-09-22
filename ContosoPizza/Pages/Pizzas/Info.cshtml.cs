@@ -27,39 +27,14 @@ namespace ContosoPizza.Pages
 
         public void OnGet(int id, int sortBy)
         {
-            Id = id;
-            Pizza = _pizzaService.GetPizza(Id);
-            ToppingList = _toppingService.GetToppings();
-
-            Sorter = new ToppingListSorter((ToppingListSorter.SortCriteria)sortBy);
-
-            if (Pizza != null && Pizza.Toppings != null)
-            {
-                // Remove toppings already on the pizza
-                ToppingList = ToppingList.Where(t => !Pizza.Toppings.Contains(t)).OrderBy(t => t.Name);
-                // Calculate total calories
-                if (Pizza.Toppings.Count > 0)
-                {
-                    Sorter = new ToppingListSorter((ToppingListSorter.SortCriteria)sortBy);
-                    Pizza.Toppings = Sorter.Sort(Pizza.Toppings.ToList());
-
-                    // Have to use a foreach loop because LINQ doesn't support null conditional operators
-                    TotalCalories = 0;
-                    foreach (var topping in Pizza.Toppings)
-                    {
-                        if (topping != null && topping.Calories != null)
-                        {
-                            TotalCalories += (decimal)topping.Calories;
-                        }
-                    }
-                }
-            }
+            Initialize(id, sortBy);
         }
 
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
+                Initialize(Id);
                 return Page();
             }
 
@@ -94,6 +69,36 @@ namespace ContosoPizza.Pages
             _toppingService.DeletePizza(toppingToRemove.Id, Pizza);
 
             return RedirectToAction("Get");
+        }
+        public void Initialize(int id, int sortBy = 0)
+        {
+            Id = id;
+            Pizza = _pizzaService.GetPizza(Id);
+            ToppingList = _toppingService.GetToppings();
+
+            Sorter = new ToppingListSorter((ToppingListSorter.SortCriteria)sortBy);
+
+            if (Pizza != null && Pizza.Toppings != null)
+            {
+                // Remove toppings already on the pizza
+                ToppingList = ToppingList.Where(t => !Pizza.Toppings.Contains(t)).OrderBy(t => t.Name);
+                // Calculate total calories
+                if (Pizza.Toppings.Count > 0)
+                {
+                    Sorter = new ToppingListSorter((ToppingListSorter.SortCriteria)sortBy);
+                    Pizza.Toppings = Sorter.Sort(Pizza.Toppings.ToList());
+
+                    // Have to use a foreach loop because LINQ doesn't support null conditional operators
+                    TotalCalories = 0;
+                    foreach (var topping in Pizza.Toppings)
+                    {
+                        if (topping != null && topping.Calories != null)
+                        {
+                            TotalCalories += (decimal)topping.Calories;
+                        }
+                    }
+                }
+            }
         }
     }
 }
