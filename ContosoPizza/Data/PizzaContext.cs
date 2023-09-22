@@ -19,6 +19,8 @@ namespace ContosoPizza.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // This is where we configure the value objects to be stored as strings
+            // and how to convert them back to value objects when we read from the database.
             modelBuilder.Entity<Pizza>()
                 .Property(p => p.Name)
                 .HasConversion(
