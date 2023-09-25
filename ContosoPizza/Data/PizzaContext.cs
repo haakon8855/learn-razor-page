@@ -51,6 +51,18 @@ namespace ContosoPizza.Data
                     v => v == null ? null : v.ToString(),
                     v => v == null ? null : new CustomerName(v)
                 );
+            modelBuilder.Entity<Sauce>()
+                .Property(s => s.Calories)
+                .HasConversion(
+                    v => v == null ? 0 : v.ToDecimal(),
+                    v => new Calories(v)
+                );
+            modelBuilder.Entity<Soda>()
+                .Property(s => s.Calories)
+                .HasConversion(
+                    v => v == null ? 0 : v.ToDecimal(),
+                    v => new Calories(v)
+                );
         }
     }
 }

@@ -42,7 +42,7 @@ namespace ContosoPizza.Migrations
 
                     b.HasIndex("SodaId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("ContosoPizza.Models.Pizza", b =>
@@ -71,7 +71,7 @@ namespace ContosoPizza.Migrations
 
                     b.HasIndex("SauceId");
 
-                    b.ToTable("Pizzas");
+                    b.ToTable("Pizzas", (string)null);
                 });
 
             modelBuilder.Entity("ContosoPizza.Models.Sauce", b =>
@@ -92,7 +92,7 @@ namespace ContosoPizza.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sauces");
+                    b.ToTable("Sauces", (string)null);
                 });
 
             modelBuilder.Entity("ContosoPizza.Models.Soda", b =>
@@ -113,7 +113,7 @@ namespace ContosoPizza.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sodas");
+                    b.ToTable("Sodas", (string)null);
                 });
 
             modelBuilder.Entity("ContosoPizza.Models.Topping", b =>
@@ -131,7 +131,7 @@ namespace ContosoPizza.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Toppings");
+                    b.ToTable("Toppings", (string)null);
                 });
 
             modelBuilder.Entity("PizzaTopping", b =>
@@ -146,7 +146,7 @@ namespace ContosoPizza.Migrations
 
                     b.HasIndex("ToppingsId");
 
-                    b.ToTable("PizzaTopping");
+                    b.ToTable("PizzaTopping", (string)null);
                 });
 
             modelBuilder.Entity("ContosoPizza.Models.Order", b =>

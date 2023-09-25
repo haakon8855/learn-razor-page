@@ -14,7 +14,8 @@ namespace ContosoPizza.Models
         public ProductName? Name { get; set; }
         public bool IsVegan { get; set; }
 
-        [Range(0.01, 9999.99)]
-        public decimal Calories { get; set; }
+        [Required]
+        [ModelBinder(BinderType = typeof(CaloriesModelBinder))]
+        public Calories? Calories { get; set; }
     }
 }

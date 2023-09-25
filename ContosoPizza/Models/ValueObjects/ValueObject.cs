@@ -8,9 +8,9 @@
             {
                 return false;
             }
-            else if (left is null && right is null)
+            else if (left is null)
             {
-                return true;
+                return right is null;
             }
             return ReferenceEquals(left, right) || left.Equals(right);
         }

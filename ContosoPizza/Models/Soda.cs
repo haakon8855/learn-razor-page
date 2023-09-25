@@ -15,8 +15,9 @@ namespace ContosoPizza.Models
         public ProductName? Name { get; set; }
         public bool IsSugarFree { get; set; }
 
-        [Range(0.0, 9999.99)]
-        public decimal Calories { get; set; }
+        [Required]
+        [ModelBinder(BinderType = typeof(CaloriesModelBinder))]
+        public Calories? Calories { get; set; }
     }
 }
 
