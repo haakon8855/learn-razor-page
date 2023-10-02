@@ -29,6 +29,16 @@ namespace ContosoPizza.Pages
             _sodaService = sodaService;
         }
 
+        public void Initialize(int sortBy = 0)
+        {
+            OrderList = _orderService.GetOrders();
+            PizzaList = _pizzaService.GetPizzas().OrderBy(p => p.Name);
+            SodaList = _sodaService.GetSodas().OrderBy(s => s.Name);
+
+            Sorter = new OrderListSorter((OrderListSorter.SortCriteria)sortBy);
+            OrderList = Sorter.Sort(OrderList);
+        }
+
         public void OnGet(int sortBy)
         {
             Initialize(sortBy);
@@ -66,16 +76,6 @@ namespace ContosoPizza.Pages
         {
             _orderService.RevertOrderStatus(id);
             return RedirectToAction("Get");
-        }
-
-        public void Initialize(int sortBy = 0)
-        {
-            OrderList = _orderService.GetOrders();
-            PizzaList = _pizzaService.GetPizzas().OrderBy(p => p.Name);
-            SodaList = _sodaService.GetSodas().OrderBy(s => s.Name);
-
-            Sorter = new OrderListSorter((OrderListSorter.SortCriteria)sortBy);
-            OrderList = Sorter.Sort(OrderList);
         }
     }
 }

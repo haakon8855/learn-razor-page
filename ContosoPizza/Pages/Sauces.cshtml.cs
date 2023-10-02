@@ -19,6 +19,14 @@ namespace ContosoPizza.Pages
             _service = service;
         }
 
+        public void Initialize(int sortBy = 0)
+        {
+
+            SauceList = _service.GetSauces();
+            Sorter = new SauceListSorter((SauceListSorter.SortCriteria)sortBy);
+            SauceList = Sorter.Sort(SauceList);
+        }
+
         public void OnGet(int sortBy)
         {
             Initialize(sortBy);
@@ -41,14 +49,6 @@ namespace ContosoPizza.Pages
         {
             _service.DeleteSauce(id);
             return RedirectToAction("Get");
-        }
-
-        public void Initialize(int sortBy = 0)
-        {
-
-            SauceList = _service.GetSauces();
-            Sorter = new SauceListSorter((SauceListSorter.SortCriteria)sortBy);
-            SauceList = Sorter.Sort(SauceList);
         }
     }
 }
